@@ -6,7 +6,7 @@ import { api } from "~/trpc/react";
 
 export function LatestPost() {
   const [latestPost] = api.post.getLatest.useSuspenseQuery();
-
+  const [posts] = api.post.getAll.useSuspenseQuery();
   const utils = api.useUtils();
   const [name, setName] = useState("");
   const createPost = api.post.create.useMutation({
@@ -23,6 +23,10 @@ export function LatestPost() {
       ) : (
         <p>You have no posts yet.</p>
       )}
+      <h3>All posts</h3>
+      {posts.map((post: any) => (
+        <p key={post.id}>{post.name}</p>
+      ))}
       <form
         onSubmit={(e) => {
           e.preventDefault();
